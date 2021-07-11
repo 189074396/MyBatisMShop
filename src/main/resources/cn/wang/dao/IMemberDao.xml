@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wang.shop.dao.IMemberDao">
+    <resultMap id="memberMap" type="cn.wang.shop.domain.Member">
+        <id property="mid" column="mid"></id>
+        <result property="password" column="password"></result>
+        <result property="name" column="name"></result>
+        <result property="phone" column="phone"></result>
+        <result property="address" column="address"></result>
+        <result property="code" column="code"></result>
+        <result property="regdate" column="regdate"></result>
+        <result property="photo" column="photo"></result>
+    </resultMap>
+    <select id="selectSets"  resultMap="memberMap">
+        select *from member
+        <where>
+            <if test="list!=null and list.size()>0">
+                <foreach collection="list" item="id" open="mid in (" close=")" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+    <select id="findAll" resultMap="memberMap">
+        select * from member;
+    </select>
+    <select id="findById" parameterType="string" resultMap="memberMap">
+        select *from member where mid=#{mid}
+    </select>
+    <select id="addUser" parameterType="cn.wang.shop.domain.Member">
+        insert into member(mid,password,regdate) values(#{mid},#{password},#{regdate});
+    </select>
+
+</mapper>
